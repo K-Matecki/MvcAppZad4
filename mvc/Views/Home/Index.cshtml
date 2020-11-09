@@ -1,0 +1,43 @@
+﻿@using mvc.Controllers
+@{
+    ViewBag.Title = "Index";
+    int RowNumber = 100;
+    if (IsPost)
+    {
+         RowNumber = Request.Form["RowNumber"].AsInt();
+
+    }
+
+}
+
+<h2>Budżet domowy </h2>
+
+<form method="post">
+    <label for="RowNumber">Ile kolumn chcesz widzieć (1-100)</label>
+    <input id="RowCount" type="number" name="RowNumber" value="" min="1" max="100">
+    <input type="submit">
+
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Cena</th>
+            <th scope="col">Data</th>
+            <th scope="col">Czy jest opłacony</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var row in BillController.ShowExamples().Take(RowNumber))
+        {
+            <tr>
+                <td scope="row">@row.Name</td>
+                <td scope="row">@row.Value pln</td>
+                <td scope="row">@row.BillDate.Day.@row.BillDate.Month.@row.BillDate.Year</td>
+                <td scope="row">@row.PaymentStatus</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
